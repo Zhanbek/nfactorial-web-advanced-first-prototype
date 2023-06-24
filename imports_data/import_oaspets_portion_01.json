@@ -1,0 +1,33 @@
+[
+	{
+		"username": "serik",
+		"password": "qwerty1",
+		"firstName": "Serik",
+		"lastName": "Serikov",
+		"citizenship": "Kazakstan",
+		"IIN": "111111111111",
+		"reviewsCount": 0,
+		"ratingValue": 0
+	},
+		{
+		"username": "seliverstova",
+		"password": "qwerty2",
+		"firstName": "Seliverstova",
+		"lastName": "Anna",
+		"middleName": "Stalonievna",
+		"citizenship": "USA",
+		"passportNumber": "222222222222",
+		"reviewsCount": 0,
+		"AverageRatingValue": 0
+	},
+	{
+		"username": "Muratov",
+		"password": "qwerty3",
+		"firstName": "Bolat",
+		"lastName": "Maratuly",
+		"citizenship": "Kazakstan",
+		"IIN": "333333333333",
+		"reviewsCount": 0,
+		"ratingValue": 0
+	}
+]	
