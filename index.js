@@ -138,3 +138,31 @@ const newReview = await new ReviewModel({
 });
 await newReview.save();
 */
+
+const app = express();
+
+app.get("/reviews/byOaspete/:oaspete", async (req, res) => {
+  const oaspeteID = req.params.oaspete;
+
+  const reviewsByOaspete = await ReviewModel.find(
+    {
+      oaspet: new mongoose.Types.ObjectId(oaspeteID)
+    }
+  );
+  res.send(reviewsByOaspete);
+});
+
+app.get("/reviews/byReviewer/:reviewer", async (req, res) => {
+  const reviewerID = req.params.reviewer;
+
+  const reviewsByReviewer = await ReviewModel.find(
+    {
+      reviewer: new mongoose.Types.ObjectId(reviewerID)
+    }
+  );
+  res.send(reviewsByReviewer);
+});
+
+app.listen(3000, () => {
+  console.log("app is listening on port 3000");
+});
