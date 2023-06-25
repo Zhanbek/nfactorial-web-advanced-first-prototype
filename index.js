@@ -52,7 +52,7 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-// Определение дочерних схем
+// Постоялец
 const OaspeteSchema = UserSchema.discriminator('Oaspete', new mongoose.Schema({
     reviewsCount: {
     type: Number,
@@ -66,6 +66,7 @@ const OaspeteSchema = UserSchema.discriminator('Oaspete', new mongoose.Schema({
   }
 }));
 
+// Рецензент
 const ReviewerSchema = UserSchema.discriminator('Reviewer', new mongoose.Schema({
     companyName: {
         type: String,
@@ -106,7 +107,7 @@ const ReviewerModel = mongoose.model('Reviewer');
 const ReviewModel = mongoose.model('Review', ReviewSchema);
 
 /*
-const newOaspete = await new OaspeteModel({
+let newOaspete = await new OaspeteModel({
     "username": "MuratovAlina",
     "password": "qwerty3",
     "firstName": "Alina",
@@ -118,7 +119,32 @@ const newOaspete = await new OaspeteModel({
 });
 await newOaspete.save();
 
-const newReviewer = await new ReviewerModel({
+newOaspete = await new OaspeteModel({
+  "username": "serik",
+  "password": "qwerty1",
+  "firstName": "Serik",
+  "lastName": "Serikov",
+  "citizenship": "Kazakstan",
+  "IIN": "111111111111",
+  "reviewsCount": 0,
+  "ratingValue": 0
+});
+await newOaspete.save();
+
+newOaspete = await new OaspeteModel({
+  "username": "seliverstova",
+  "password": "qwerty2",
+  "firstName": "Seliverstova",
+  "lastName": "Anna",
+  "middleName": "Stalonievna",
+  "citizenship": "USA",
+  "passportNumber": "222222222222",
+  "reviewsCount": 0,
+  "AverageRatingValue": 0
+});
+await newOaspete.save();
+
+let newReviewer = await new ReviewerModel({
     "username": "zhanna",
     "password": "qwerty8",
     "firstName": "Zhanna",
@@ -130,7 +156,19 @@ const newReviewer = await new ReviewerModel({
 });
 await newReviewer.save();
 
-const newReview = await new ReviewModel({
+newReviewer = await new ReviewerModel(	{
+  "username": "Alibek",
+  "password": "qwerty5",
+  "firstName": "ALibek",
+  "lastName": "Alibekov",
+  "citizenship": "Kazakstan",
+  "IIN": "5555555555555",
+  "companyName": "Roayl Petrol Hotel",
+  "reviewerType": "representative"
+});
+await newReviewer.save();
+
+let newReview = await new ReviewModel({
     "oaspet": "6497667d5e8c7954773d9a3f",
     "reviewer": "649768005e8c7954773d9a43",
     "reviewText": "Очень добропорядочный клиент!",
@@ -140,6 +178,11 @@ await newReview.save();
 */
 
 const app = express();
+
+app.get("/oaspetes/", async (req, res) => {
+  const allOaspetes = await OaspeteModel.find();
+  res.send(allOaspetes);
+});
 
 app.get("/reviews/byOaspete/:oaspete", async (req, res) => {
   const oaspeteID = req.params.oaspete;
