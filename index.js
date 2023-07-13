@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import express from "express";
+import express, { json } from "express";
 
 try {
     await mongoose.connect("mongodb://127.0.0.1:27017/FinalProjectPrototype");
@@ -17,7 +17,8 @@ try {
 const UserSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   password: {
     type: String,
@@ -44,7 +45,8 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: false,
     min: 12, 
-    max: 12
+    max: 12,
+    unique: true
   },
   passportNumber: {
     type: String,
@@ -80,7 +82,7 @@ const ReviewerSchema = UserSchema.discriminator('Reviewer', new mongoose.Schema(
   }
 }));
 
-const ReviewSchema = await mongoose.Schema({
+const ReviewSchema = mongoose.Schema({
     reviewDate: {
         type: Date,
         default: Date.now
@@ -179,6 +181,8 @@ await newReview.save();
 
 const app = express();
 
+app.use(express.json());
+
 app.get("/oaspetes/", async (req, res) => {
   const allOaspetes = await OaspeteModel.find();
   res.send(allOaspetes);
@@ -206,6 +210,15 @@ app.get("/reviews/byReviewer/:reviewer", async (req, res) => {
   res.send(reviewsByReviewer);
 });
 
-app.listen(3000, () => {
-  console.log("app is listening on port 3000");
+app.post("/reviews/add", async (req, res)=> {
+  const item = req.body;
+  if (item.reviewText && item.ratingValue) {
+    const response = await ReviewModel.create(item);
+    item["_id"] = response.insertedId;
+    res.status(201).send(item);
+  }
+})
+
+app.listen(9000, () => {
+  console.log("app is listening on port 9000");
 });
