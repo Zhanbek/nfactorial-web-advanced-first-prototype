@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import express, { json } from "express";
 
+import cors from "cors";
+
 try {
     await mongoose.connect("mongodb://127.0.0.1:27017/FinalProjectPrototype");
   } catch (err) {
@@ -182,6 +184,7 @@ await newReview.save();
 const app = express();
 
 app.use(express.json());
+app.use(cors);
 
 app.get("/oaspetes/", async (req, res) => {
   const allOaspetes = await OaspeteModel.find();
