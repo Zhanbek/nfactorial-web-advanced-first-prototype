@@ -189,7 +189,7 @@ app.get("/oaspetes/", async (req, res) => {
 });
 
 app.get("/oaspetes/:id", async (req, res) => {
-  const oaspeteID = req.params.oaspete;
+  const oaspeteID = req.params.id;
 
   const oaspeteObjecById = await OaspeteModel.findOne(
     {
