@@ -188,6 +188,17 @@ app.get("/oaspetes/", async (req, res) => {
   res.send(allOaspetes);
 });
 
+app.get("/oaspetes/:id", async (req, res) => {
+  const oaspeteID = req.params.oaspete;
+
+  const oaspeteObjecById = await OaspeteModel.findOne(
+    {
+      _id: new mongoose.Types.ObjectId(oaspeteID)
+    }
+  );
+  res.status(200).json(oaspeteObjecById);
+}); 
+
 app.get("/reviews/byOaspete/:oaspete", async (req, res) => {
   const oaspeteID = req.params.oaspete;
 
@@ -196,7 +207,7 @@ app.get("/reviews/byOaspete/:oaspete", async (req, res) => {
       oaspet: new mongoose.Types.ObjectId(oaspeteID)
     }
   );
-  res.send(reviewsByOaspete);
+  res.status(200).send(reviewsByOaspete);
 });
 
 app.get("/reviews/byReviewer/:reviewer", async (req, res) => {
@@ -207,12 +218,15 @@ app.get("/reviews/byReviewer/:reviewer", async (req, res) => {
       reviewer: new mongoose.Types.ObjectId(reviewerID)
     }
   );
-  res.send(reviewsByReviewer);
+  res.status(200).send(reviewsByReviewer);
 });
 
 app.post("/reviews/add", async (req, res)=> {
   const item = req.body;
   if (item.reviewText && item.ratingValue) {
+    item.oaspet = '6497667d5e8c7954773d9a3f';
+    item.reviewer = '649768005e8c7954773d9a43';
+      
     const response = await ReviewModel.create(item);
     item["_id"] = response.insertedId;
     res.status(201).send(item);
